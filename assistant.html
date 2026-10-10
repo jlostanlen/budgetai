@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Assistant · BudgetAI</title>
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="stylesheet" href="assets/css/assistant.css">
+<script src="assets/js/session.js"></script></head>
+<body class="assistant-page">
+<div class="app-shell">
+  <aside class="sidebar">
+    <div>
+      <a class="brand" href="index.html"><span class="brand-bars"><i></i><i></i><i></i></span><b>BudgetAI</b></a>
+      <nav aria-label="Navigation principale">
+        <a class="nav-link" href="index.html" aria-label="Accueil"><span aria-hidden="true">⌂</span>Accueil</a>
+        <a class="nav-link" href="expenses.html" aria-label="Dépenses"><span class="asset-icon icon-expenses" aria-hidden="true"></span>Dépenses</a>
+        <a class="nav-link" href="documents.html" aria-label="Documents"><span class="asset-icon icon-documents" aria-hidden="true"></span>Documents</a>
+        <a class="nav-link active" href="assistant.html" aria-current="page" aria-label="Assistant"><span class="asset-icon icon-assistant" aria-hidden="true"></span>Assistant</a>
+      <a class="nav-link" href="budget.html" aria-label="Mon budget"><span aria-hidden="true">◎</span>Mon budget</a></nav>
+    </div>
+    <a class="profile" href="#" data-inactive aria-label="Profil, prochainement"><span class="avatar">●</span><span><b>Mon compte</b><small>Mon profil</small></span><b>›</b></a>
+  </aside>
+  <main class="main assistant-main">
+    <header class="assistant-header">
+      <div><a class="mobile-home" href="index.html">← Accueil</a><h1>Assistant IA</h1><p>Un peu de clarté dans vos finances.</p></div>
+      <span class="model-tag">OpenRouter</span>
+    </header>
+    <div class="assistant-layout">
+      <aside class="discussion-tools" aria-label="Discussions et sources">
+        <button class="new-discussion" id="newConversation" type="button"><span aria-hidden="true">+</span> Nouvelle discussion</button>
+        <section class="history-section">
+          <h2>MES DISCUSSIONS</h2>
+          <div id="historyList"></div>
+          <p class="session-note">Discussions enregistrées dans votre compte.</p>
+        </section>
+        <section class="sources-card">
+          <span class="source-symbol" aria-hidden="true">▤</span>
+          <h2>Les sources de l’assistant</h2>
+          <div class="source-state" id="sourceState"><span></span> Chargement des sources…</div>
+          <p id="sourceDescription">Les réponses utilisent les transactions structurées disponibles.</p>
+          <a class="documents-soon" href="documents.html"><span>Documents bancaires</span><small id="documentCount">Ouvrir</small></a>
+          <p>Importez vos relevés et vérifiez les transactions dans l’espace Documents.</p>
+        </section>
+      </aside>
+      <section class="chat-workspace card" aria-label="Assistant budgétaire">
+        <div class="chat-topline"><span><i class="chat-icon" aria-hidden="true"></i> Votre assistant budget</span><span class="demo-badge">DÉMO</span></div>
+        <div id="chatScroll" class="chat-scroll">
+          <div class="welcome" id="welcome">
+            <span class="welcome-icon"><i class="chat-icon" aria-hidden="true"></i></span>
+            <span class="eyebrow">VOTRE BUDGET, PLUS SIMPLE</span>
+            <h2>Parlons de vos finances.</h2>
+            <p>Comprendre une dépense, faire le point sur le mois<br class="desktop-break"> ou trouver des pistes pour économiser.</p>
+            <div class="suggestions">
+              <button type="button" data-question="Quel est le bilan de mes dépenses sur la période sélectionnée ?"><span>▥</span><b>Faire le point</b><small>La période sélectionnée</small><i>↗</i></button>
+              <button type="button" data-question="Quels sont mes principaux postes de dépenses ?"><span>⌕</span><b>Comprendre mes dépenses</b><small>Les postes les plus importants</small><i>↗</i></button>
+              <button type="button" data-question="Quelles dépenses pourrais-je réduire ?"><span>◎</span><b>Trouver des économies</b><small>Des pistes concrètes</small><i>↗</i></button>
+              <button type="button" data-question="Combien ai-je dépensé sur la période sélectionnée ?"><span>↗</span><b>Faire le total</b><small>Les comptes sélectionnés</small><i>↗</i></button>
+            </div>
+          </div>
+          <div id="conversation" class="conversation" role="log" aria-label="Messages"></div>
+          <p id="thinking" class="thinking" role="status" hidden>BudgetAI prépare votre réponse…</p>
+        </div>
+        <div class="composer-area">
+          <p id="connectionStatus" class="connection-status" role="status">Connexion à l’assistant…</p>
+          <div id="chatError" class="chat-error" role="alert" hidden><span id="errorText"></span><button id="retry" type="button">Réessayer</button></div>
+          <form id="chatForm" class="chat-composer">
+            <label class="sr-only" for="chatInput">Votre question sur votre budget</label>
+            <textarea id="chatInput" rows="2" maxlength="4000" placeholder="Posez une question sur vos dépenses…" required></textarea>
+            <div class="composer-actions"><span class="source-pill">Données de démonstration</span><button id="sendMessage" type="submit" aria-label="Envoyer la question" disabled>↑</button></div>
+          </form>
+          <p class="composer-hint">Entrée pour envoyer · Maj + Entrée pour aller à la ligne</p>
+          <p class="assistant-disclaimer">L’IA peut se tromper. Vérifiez les montants et les catégories extraites.</p>
+        </div>
+      </section>
+    </div>
+  </main>
+</div>
+<div class="toast" id="toast" role="status"></div>
+<script src="assets/js/accounts.js"></script>
+<script src="assets/js/assistant-api.js"></script>
+<script src="assets/js/assistant.js"></script>
+</body>
+</html>
