@@ -91,12 +91,15 @@
     $('#ruleFields').hidden = !$('#remember').checked; $('#ruleName').required = $('#remember').checked;
     $('#amountField').hidden = !$('#matchAmount').checked; $('#ruleAmount').required = $('#remember').checked && $('#matchAmount').checked;
   }
-  function openEdit(tx) {
+  async function openEdit(tx) {
     editPosition={x:window.scrollX,y:window.scrollY};
     editing = tx; $('#editForm').reset(); error('#editError', ''); $('#editDescription').textContent = tx.description; $('#editAmount').textContent = money(tx.amount_cents);
-    $('#category').replaceChildren(); data.categories.forEach(c => { const o = node('option', c.label); o.value = c.id; $('#category').append(o); }); $('#category').value = tx.category;
+    $('#category').replaceChildren();
+    const fillCategories=categories=>{const selected=$('#category').value||tx.category;$('#category').replaceChildren();[...categories].sort((a,b)=>Number(b.id.startsWith('custom_'))-Number(a.id.startsWith('custom_'))).forEach(c=>{const o=node('option',c.label);o.value=c.id;$('#category').append(o);});$('#category').value=selected;};
+    fillCategories(data.categories); $('#category').value=tx.category;
     $('#ruleName').value = tx.description.slice(0, 200); $('#ruleAmount').value = (Math.abs(tx.amount_cents) / 100).toFixed(2);
     $('#ruleDirection').textContent = `Cette règle concerne uniquement les ${tx.amount_cents < 0 ? 'débits' : 'crédits'}.`; ruleFields(); $('#editDialog').showModal();
+    try {const categories=await request('/categories');if(editing===tx&&$('#editDialog').open)fillCategories(categories);}catch(e){if(editing===tx&&$('#editDialog').open)error('#editError','Actualisation des catégories impossible. '+e.message);}
   }
   $('#editForm').onsubmit = async event => {
     event.preventDefault(); if (busy) return; busy = true; $('#save').disabled = true; error('#editError', '');
